@@ -27,8 +27,8 @@ if [ `whoami` == "root" ]; then
   fi
 
   #Install the init file for cm160
-  if [ ! -e /etc/init.d/cm160.conf ]; then
-    cp etc/init/cm160.conf /etc/init.d/cm160.conf
+  if [ ! -e /etc/init/cm160.conf ]; then
+    cp etc/init/cm160.conf /etc/init/cm160.conf
   fi
 
   #Install the rpi-eco-light files

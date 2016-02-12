@@ -5,14 +5,14 @@ import time, sys
 import db_comms
 from lighting import Lighting
 
-DB_PATH="/home/pi/git_repos/eagle-owl/bin/arm"
+DB_PATH="/opt/eagleowl"
 SLEEP_TIME_IN_SECS=5
 COST_PER_HOUR_IN_PENCE=13.37
 
 #Converts KW to RGB based on cost per hour
 def kw_to_rgb(kw):
   kw_in_pence=COST_PER_HOUR_IN_PENCE*kw
-  print "KW in pence: %s" % kw_in_pence
+  #print "KW in pence: %s" % kw_in_pence
   rgb_dict=Lighting.GREEN
   if kw_in_pence > 14:
     rgb_dict=Lighting.RED
@@ -41,5 +41,5 @@ try:
    
 
 except KeyboardInterrupt:
-    print "" #Clear the current line
+    #print "" #Clear the current line
     sys.exit()
