@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO Install dependencies - upstart & libusb-dev (building only I think)
+
 if [ `whoami` == "root" ]; then
   if [ $# != 0 ]; then
     if [ $1 == "clean" ]; then
