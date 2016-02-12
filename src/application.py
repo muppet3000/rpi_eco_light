@@ -36,6 +36,9 @@ try:
     if comms.check_comms_status() == False:
       light.set_error()
 
+    #Flush the stdout each time round the loop
+    sys.stdout.flush()
+
     #Sleep for a bit before the next update
     time.sleep(SLEEP_TIME_IN_SECS)
    
