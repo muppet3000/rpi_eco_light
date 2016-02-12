@@ -9,6 +9,7 @@ if [ `whoami` == "root" ]; then
       rm -rf /opt/eagleowl
       rm -rf /etc/eagleowl.conf
       rm -rf /etc/init.d/cm160.conf
+      rm -rf /etc/init.d/rpi-eco-light.conf
       rm -rf /opt/rpi-eco-light
       echo "Done cleaning"
     fi
@@ -35,6 +36,11 @@ if [ `whoami` == "root" ]; then
   if [ ! -e /opt/rpi-eco-light ]; then
     mkdir -p /opt/rpi-eco-light
     cp src/* /opt/rpi-eco-light/
+  fi
+
+  #Install the init file for rpi-eco-light
+  if [ ! -e /etc/init/rpi-eco-light.conf ]; then
+    cp etc/init/rpi-eco-light.conf /etc/init/rpi-eco-light.conf
   fi
 
   echo "Installation complete"
