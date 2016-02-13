@@ -10,13 +10,14 @@ class db_comms:
     self.__max_update_checks = 10
 
   def get_current_kw(self):
-    file_object = open(self.__db_location+"/"+self.__live_location, "r")
-    line = file_object.readline()
-    splits=line.split()
-    file_object.close()
-    kw=float(splits[3])
-    kw=kw/1000 #This is a small tweak because the live file returns W not KW - Stoopid!
-    return kw
+    with open("{}/{}".format(self.__db_location,
+                             self.__live_location),
+              "r") as live_file:
+      line = live_file.readline()
+      splits=line.split()
+      kw=float(splits[3])
+      kw=kw/1000 #This is a small tweak because the live file returns W not KW - Stoopid!
+      return kw
 
   def check_comms_status(self):
     ret_val = True #Good

@@ -15,6 +15,6 @@ class Lighting:
     self.__log("ERROR")
 
   def __log(self, message):
-    filehandle=open("/tmp/rpi-eco-light.txt", "a")
-    filehandle.write(str(message)+"\n")
-    filehandle.close()
+    with open("/tmp/rpi-eco-light.txt", "a") as log_file:
+      log_file.write(str(message)+"\n")
+      log_file.close()
