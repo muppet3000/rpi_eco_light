@@ -8,7 +8,6 @@ if [ `whoami` == "root" ]; then
       echo "Cleaning existing installation first"
       rm -rf /opt/eagleowl
       rm -rf /etc/eagleowl.conf
-      rm -rf /etc/init.d/cm160.conf
       rm -rf /etc/init.d/rpi-eco-light.conf
       rm -rf /opt/rpi-eco-light
       echo "Done cleaning"
@@ -25,11 +24,6 @@ if [ `whoami` == "root" ]; then
   #Install the eagleowl configuration file
   if [ ! -e /etc/eagleowl.conf ]; then
     cp etc/eagleowl.conf /etc/eagleowl.conf
-  fi
-
-  #Install the init file for cm160
-  if [ ! -e /etc/init/cm160.conf ]; then
-    cp etc/init/cm160.conf /etc/init/cm160.conf
   fi
 
   #Install the rpi-eco-light files
