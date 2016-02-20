@@ -31,6 +31,7 @@ class db_comms:
       else: #Update time has not changed, we should see when it last changed
         self.__update_checks = self.__update_checks + 1
         if self.__update_checks >= self.__max_update_checks: #We've reached our max attempts to query - something's gone wrong
+          print "Max update checks reached, last update time: %s" % (temp_last_update_time)
           ret_val = False #Not good
     return ret_val
 
