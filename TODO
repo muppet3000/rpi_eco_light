@@ -1,3 +1,3 @@
-- Retry using upstart scripts for CM160 and python 'application'
-- Update installation script to add unicornhat library
-- Update installation script to deploy application
+- Update system to use python logger
+- Document code
+- Update README file
