@@ -3,7 +3,9 @@
 if [ `whoami` == "root" ]; then
   if [ $# != 0 ]; then
     if [ $1 == "clean" ]; then
-      echo "Cleaning existing installation first"
+      echo "Cleaning existing installation first & disabling services (if running)"
+      service cm160 stop
+      service rpi-eco-light stop
       rm -rf /opt/eagleowl
       rm -rf /etc/eagleowl.conf
       rm -rf /etc/init/cm160.conf
