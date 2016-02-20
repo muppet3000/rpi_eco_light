@@ -35,16 +35,3 @@ class db_comms:
           ret_val = False #Not good
     return ret_val
 
-
-
-
-
-
-#This was the original plan, however all we need is the 'live' values
-#import sqlite3
-#
-#conn = sqlite3.connect('/home/pi/git_repos/eagle-owl/bin/arm/eagleowl.db')
-#c = conn.cursor()
-#
-#for row in c.execute('SELECT * FROM energy_history ORDER BY year DESC, month DESC, day DESC, hour DESC, "min" DESC LIMIT 1'):
-#  print row
