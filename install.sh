@@ -53,6 +53,9 @@ if [ `whoami` == "root" ]; then
     cp etc/init/rpi-eco-light.conf /etc/init/rpi-eco-light.conf
   fi
 
+  service cm160 restart
+  service rpi-eco-light restart
+
   echo "Installation complete"
 else
   echo "Script must be run as root"
