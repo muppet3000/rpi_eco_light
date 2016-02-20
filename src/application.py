@@ -14,10 +14,21 @@ def kw_to_rgb(kw):
   kw_in_pence=COST_PER_HOUR_IN_PENCE*kw
   print "KW in pence: %s" % kw_in_pence
   rgb_dict=Lighting.GREEN
-  if kw_in_pence > 14:
+  if kw_in_pence >= 20:
+    print(">= 20 = RED")
     rgb_dict=Lighting.RED
-  elif kw_in_pence < 14:
+  elif kw_in_pence >= 15:
+    print("< 20 && >= 15 = ORANGE")
+    rgb_dict=Lighting.ORANGE
+  elif kw_in_pence >= 10:
+    print("< 15 && >= 10 = YELLOW")
+    rgb_dict=Lighting.YELLOW
+  elif kw_in_pence >= 8:
+    print("< 10 && >= 8 = GREEN")
     rgb_dict=Lighting.GREEN
+  elif kw_in_pence < 8:
+    print("< 8 = BLUE")
+    rgb_dict=Lighting.BLUE
         
   return rgb_dict
 
@@ -31,7 +42,6 @@ try:
     kw=comms.get_current_kw() #Get current kw
     rgb_dict=kw_to_rgb(kw) #Get the dictionary for colouring
     light.set_light(rgb_dict) #Set the light value
-
 
     if comms.check_comms_status() == False:
       light.set_error()
