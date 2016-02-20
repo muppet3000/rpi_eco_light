@@ -15,8 +15,10 @@ class db_comms:
               "r") as live_file:
       line = live_file.readline()
       splits=line.split()
-      kw=float(splits[3])
-      kw=kw/1000 #This is a small tweak because the live file returns W not KW - Stoopid!
+      kw=0
+      if len(splits) >= 4:
+        kw=float(splits[3])
+        kw=kw/1000 #This is a small tweak because the live file returns W not KW - Stoopid!
       return kw
 
   def check_comms_status(self):

@@ -30,10 +30,13 @@ def kw_to_rgb(kw):
   elif kw_in_pence >= 8:
     print("< 10 && >= 8 = GREEN")
     rgb_dict=Lighting.GREEN
-  elif kw_in_pence < 8:
+  elif kw_in_pence < 8 and kw_in_pence > 0:
     print("< 8 = BLUE")
     rgb_dict=Lighting.BLUE
-        
+  elif kw_in_pence == 0:
+    print("==0 = PURPLE (No value yet)")
+    rgb_dict=Lighting.PURPLE
+
   return rgb_dict
 
 
