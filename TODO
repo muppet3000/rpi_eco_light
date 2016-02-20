@@ -1,3 +1,3 @@
-Retry using upstart scripts for CM160 and python 'application'
-Rename 'application' to rpi-eco-light
-Add support for light grid connectivity
+- Retry using upstart scripts for CM160 and python 'application'
+- Update installation script to add unicornhat library
+- Update installation script to deploy application
