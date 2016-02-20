@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import time, sys
+import time, sys, signal
 
 import db_comms
 from lighting import Lighting
@@ -8,6 +8,10 @@ from lighting import Lighting
 DB_PATH="/opt/eagleowl"
 SLEEP_TIME_IN_SECS=5
 COST_PER_HOUR_IN_PENCE=13.37
+
+def signal_term_handler(signal, frame):
+    print 'got SIGTERM'
+    sys.exit(0)
 
 #Converts KW to RGB based on cost per hour
 def kw_to_rgb(kw):
@@ -34,6 +38,8 @@ def kw_to_rgb(kw):
 
 
 try:
+  signal.signal(signal.SIGTERM, signal_term_handler)
+
   #Create comms and lighting instances
   comms=db_comms.db_comms(DB_PATH)
   light=Lighting()
@@ -55,4 +61,4 @@ try:
 
 except KeyboardInterrupt:
     print "" #Clear the current line
-    sys.exit()
+    sys.exit(0)
