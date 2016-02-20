@@ -10,7 +10,7 @@ class Lighting:
   PURPLE=(148, 0, 211)
 
   def __init__(self):
-    self.__current_value=self.YELLOW
+    self.__current_value=self.BLUE
     UH.brightness(1.0)
     pixels=self.__set_whole_grid(self.__current_value)
     UH.set_pixels(pixels)
@@ -32,7 +32,8 @@ class Lighting:
       pixels=self.__set_whole_grid(self.PURPLE)
       UH.set_pixels(pixels)
       UH.show()
-      time.sleep(0.2)
+      time.sleep(0.4)
+    self.__current_value=self.PURPLE
     self.__log("ERROR")
 
   def __log(self, message):

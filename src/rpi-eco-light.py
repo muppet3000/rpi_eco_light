@@ -39,12 +39,12 @@ try:
   light=Lighting()
 
   while True:
-    kw=comms.get_current_kw() #Get current kw
-    rgb_dict=kw_to_rgb(kw) #Get the dictionary for colouring
-    light.set_light(rgb_dict) #Set the light value
-
     if comms.check_comms_status() == False:
       light.set_error()
+    else:
+      kw=comms.get_current_kw() #Get current kw
+      rgb_dict=kw_to_rgb(kw) #Get the dictionary for colouring
+      light.set_light(rgb_dict) #Set the light value
 
     #Flush the stdout each time round the loop
     sys.stdout.flush()
