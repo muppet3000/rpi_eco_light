@@ -1,9 +1,11 @@
 import os
 import time
+import logging
 
 
 class DBComms:
     def __init__(self, db_location):
+        self._logger = logging.getLogger(self.__class__.__name__)
         self._db_location = db_location
         self._live_location = ".live"
         self._last_update_time = None
@@ -39,6 +41,6 @@ class DBComms:
                 self._update_checks += 1
                 if self._update_checks >= self._max_update_checks:
                     # We've reached our max attempts to query - something's gone wrong
-                    print "Max update checks reached, last update time: %s" % temp_last_update_time
+                    self._logger.error("Max update checks reached, last update time: %s" % temp_last_update_time)
                     comms_good = False
         return comms_good

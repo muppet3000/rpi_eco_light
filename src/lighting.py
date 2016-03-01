@@ -1,4 +1,6 @@
 import time
+import logging
+
 import unicornhat as UH
 
 
@@ -11,6 +13,7 @@ class Lighting:
     PURPLE = (148, 0, 211)
 
     def __init__(self):
+        self._logger = logging.getLogger(self.__class__.__name__)
         self._current_value = self.BLUE
         UH.brightness(1.0)
         pixels = self._set_whole_grid(self._current_value)
@@ -35,10 +38,7 @@ class Lighting:
             UH.show()
             time.sleep(0.4)
         self._current_value = self.PURPLE
-        self._log("ERROR")
-
-    def _log(self, message):
-         print(str(message))
+        self._logger.error("Light set to error state")
 
     def _set_whole_grid(self, rgb_val):
         pixels = []

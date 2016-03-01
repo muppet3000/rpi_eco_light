@@ -1,5 +1,9 @@
+import logging
+
 from db_comms import DBComms
 from lighting import Lighting
+
+logger = logging.getLogger(__name__)
 
 
 def kw_to_rgb(kw, pence_per_hour):
@@ -10,24 +14,24 @@ def kw_to_rgb(kw, pence_per_hour):
     :return: a dict for RGB values
     """
     kw_in_pence = pence_per_hour * kw
-    print "KW in pence: %s" % kw_in_pence
+    logger.debug("KW in pence: %s" % kw_in_pence)
     if kw_in_pence >= 20:
-        print(">= 20 = RED")
+        logger.debug(">= 20 = RED")
         rgb_dict = Lighting.RED
     elif kw_in_pence >= 15:
-        print("< 20 && >= 15 = ORANGE")
+        logger.debug("< 20 && >= 15 = ORANGE")
         rgb_dict = Lighting.ORANGE
     elif kw_in_pence >= 10:
-        print("< 15 && >= 10 = YELLOW")
+        logger.debug("< 15 && >= 10 = YELLOW")
         rgb_dict = Lighting.YELLOW
     elif kw_in_pence >= 8:
-        print("< 10 && >= 8 = GREEN")
+        logger.debug("< 10 && >= 8 = GREEN")
         rgb_dict = Lighting.GREEN
     elif 0 > kw_in_pence < 8:
-        print("< 8 = BLUE")
+        logger.debug("< 8 = BLUE")
         rgb_dict = Lighting.BLUE
     elif kw_in_pence == 0:
-        print("==0 = PURPLE (No value yet)")
+        logger.debug("==0 = PURPLE (No value yet)")
         rgb_dict = Lighting.PURPLE
     else:
         rgb_dict = Lighting.GREEN
