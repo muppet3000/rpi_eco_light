@@ -4,16 +4,17 @@ import logging
 
 
 class DBComms:
-    def __init__(self, db_location):
+    def __init__(self, config_helper):
         self._logger = logging.getLogger(self.__class__.__name__)
-        self._db_location = db_location
+        self._config_helper = config_helper
         self._live_location = ".live"
         self._last_update_time = None
         self._update_checks = 0
         self._max_update_checks = 10
 
     def get_current_kw(self):
-        with open("{}/{}".format(self._db_location,
+        current_config = self._config_helper.get_current_config()
+        with open("{}/{}".format(current_config.get('service','db_path'),
                                  self._live_location),
                   "r") as live_file:
             line = live_file.readline()
@@ -27,7 +28,8 @@ class DBComms:
 
     def check_comms_status(self):
         comms_good = True
-        temp_last_update_time = time.ctime(os.path.getmtime(self._db_location + "/" + self._live_location))
+        current_config = self._config_helper.get_current_config()
+        temp_last_update_time = time.ctime(os.path.getmtime(current_config.get('service','db_path') + "/" + self._live_location))
         if not self._last_update_time:
             # not initialised
             self._last_update_time = temp_last_update_time
