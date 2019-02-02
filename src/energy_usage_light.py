@@ -1,36 +1,48 @@
 import logging
 
-from db_comms import DBComms
-from lighting import Lighting
+#from db_comms import DBComms
+#from lighting import Lighting
+from db_comms_stub import DBComms
+from lighting_stub import Lighting
 
 logger = logging.getLogger(__name__)
 
 
-def kw_to_rgb(kw, pence_per_hour):
+def kw_to_rgb(kw, current_config):
     """
     Converts Power (KW) to a RGB value
     :param kw: power
-    :param pence_per_hour: the cost in pence per kw per hour
+    :param current_config: the current configuration file
     :return: a dict for RGB values
     """
-    kw_in_pence = pence_per_hour * kw
-    logger.debug("KW in pence: %s" % kw_in_pence)
-    if kw_in_pence >= 20:
-        logger.debug(">= 20 = RED")
+    lighting_value = kw
+    if (current_config.get('monitor','type') == "PENCE"):
+      lighting_value = current_config.getfloat('monitor','cost_per_hour_in_pence') * kw
+      logger.debug("KW in pence: %s" % lighting_value)
+    else:
+      logger.debug("KW: %s" % lighting_value)
+
+    level_1 = current_config.getfloat('levels','level_1')
+    level_2 = current_config.getfloat('levels','level_2')
+    level_3 = current_config.getfloat('levels','level_3')
+    level_4 = current_config.getfloat('levels','level_4')
+
+    if lighting_value >= level_4:
+        logger.debug(">= %.2f = RED",level_4)
         rgb_dict = Lighting.RED
-    elif kw_in_pence >= 15:
-        logger.debug("< 20 && >= 15 = ORANGE")
+    elif lighting_value >= level_3:
+        logger.debug("< %.2f && >= %.2f = ORANGE",level_4, level_3)
         rgb_dict = Lighting.ORANGE
-    elif kw_in_pence >= 10:
-        logger.debug("< 15 && >= 10 = YELLOW")
+    elif lighting_value >= level_2:
+        logger.debug("< %.2f && >= %.2f = YELLOW",level_3,level_2)
         rgb_dict = Lighting.YELLOW
-    elif kw_in_pence >= 8:
-        logger.debug("< 10 && >= 8 = GREEN")
+    elif lighting_value >= level_1:
+        logger.debug("< %.2f && >= %.2f = GREEN",level_2, level_1)
         rgb_dict = Lighting.GREEN
-    elif 0 > kw_in_pence < 8:
-        logger.debug("< 8 = BLUE")
+    elif lighting_value < level_1 and lighting_value > 0:
+        logger.debug("< %.2f = BLUE",level_1)
         rgb_dict = Lighting.BLUE
-    elif kw_in_pence == 0:
+    elif lighting_value == 0:
         logger.debug("==0 = PURPLE (No value yet)")
         rgb_dict = Lighting.PURPLE
     else:
@@ -40,15 +52,18 @@ def kw_to_rgb(kw, pence_per_hour):
 
 
 class EnergyUsageLight(object):
-    def __init__(self, db_path, pence_per_hour):
-        self._comms = DBComms(db_path)
+    def __init__(self, config_helper):
+        self._config_helper = config_helper
+        current_config = config_helper.get_current_config()
+        self._comms = DBComms(config_helper)
         self._light = Lighting()
-        self._pence_per_hour = pence_per_hour
 
     def update(self):
+        current_config = self._config_helper.get_current_config()
+
         if not self._comms.check_comms_status():
             self._light.set_error()
         else:
             kw = self._comms.get_current_kw()
-            rgb_dict = kw_to_rgb(kw, self._pence_per_hour)
+            rgb_dict = kw_to_rgb(kw, current_config)
             self._light.set_light(rgb_dict)
