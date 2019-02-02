@@ -29,6 +29,7 @@ class DBComms:
     def check_comms_status(self):
         comms_good = True
         current_config = self._config_helper.get_current_config()
+        self._max_update_checks = current_config.get('service','max_update_checks')
         temp_last_update_time = time.ctime(os.path.getmtime(current_config.get('service','db_path') + "/" + self._live_location))
         if not self._last_update_time:
             # not initialised
@@ -45,4 +46,6 @@ class DBComms:
                     # We've reached our max attempts to query - something's gone wrong
                     self._logger.error("Max update checks reached, last update time: %s" % temp_last_update_time)
                     comms_good = False
+                else:
+                    self._logger.debug("Value has not been updated in %d queries, max queries before error: %d", self._update_checks, self._max_update_checks)
         return comms_good
