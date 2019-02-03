@@ -1,10 +1,10 @@
-import time
 import logging
+import time
 
 import unicornhat as UH
 
 
-class Lighting:
+class Lighting(object):
     BLUE = (0, 0, 255)
     GREEN = (0, 255, 0)
     YELLOW = (177, 142, 52)
@@ -23,7 +23,7 @@ class Lighting:
     def set_light(self, target_value):
         set_to_value = self._current_value
         while set_to_value != target_value:
-            set_to_value = self._fade_between_rgb(set_to_value, target_value,1)
+            set_to_value = self._fade_between_rgb(set_to_value, target_value, 1)
             pixels = self._set_whole_grid(set_to_value)
             UH.set_pixels(pixels)
             UH.show()
@@ -31,21 +31,21 @@ class Lighting:
         self._current_value = set_to_value
 
     def set_error(self):
-        for i in range(0,10):
+        for i in range(0, 10):
             UH.off()
             pixels = self._set_whole_grid(self.PURPLE)
             UH.set_pixels(pixels)
             UH.show()
             time.sleep(0.4)
         self._current_value = self.PURPLE
-        self._logger.error("Light set to error state")
+        self._logger.error('Light set to error state')
 
     def _set_whole_grid(self, rgb_val):
         pixels = []
         for _ in range(8):
             pixels.append([])
             for _ in range(8):
-                pixels[len(pixels)-1].append(rgb_val)
+                pixels[len(pixels) - 1].append(rgb_val)
         return pixels
 
     def _fade_between_rgb(self, current_rgb, desired_rgb, change_step=2):
