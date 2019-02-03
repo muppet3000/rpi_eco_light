@@ -12,7 +12,7 @@ def kw_to_rgb(kw, current_config):
     Converts Power (KW) to a RGB value
     :param kw: power
     :param current_config: the current configuration file
-    :return: a dict for RGB values
+    :return: a tuple for RGB values
     """
     lighting_value = kw
     if current_config.get('monitor', 'type') == 'PENCE':
@@ -28,26 +28,26 @@ def kw_to_rgb(kw, current_config):
 
     if lighting_value >= level_4:
         logger.debug('>= {:.2f} = RED'.format(level_4))
-        rgb_dict = Lighting.RED
+        rgb_value = Lighting.RED
     elif lighting_value >= level_3:
         logger.debug('< {:.2f} && >= {:.2f} = ORANGE'.format(level_4, level_3))
-        rgb_dict = Lighting.ORANGE
+        rgb_value = Lighting.ORANGE
     elif lighting_value >= level_2:
         logger.debug('< {:.2f} && >= {:.2f} = YELLOW'.format(level_3, level_2))
-        rgb_dict = Lighting.YELLOW
+        rgb_value = Lighting.YELLOW
     elif lighting_value >= level_1:
         logger.debug('< {:.2f} && >= {:.2f} = GREEN'.format(level_2, level_1))
-        rgb_dict = Lighting.GREEN
+        rgb_value = Lighting.GREEN
     elif 0 < lighting_value < level_1:
         logger.debug('< {:.2f} = BLUE'.format(level_1))
-        rgb_dict = Lighting.BLUE
+        rgb_value = Lighting.BLUE
     elif lighting_value == 0:
         logger.debug('==0 = PURPLE (No value yet)')
-        rgb_dict = Lighting.PURPLE
+        rgb_value = Lighting.PURPLE
     else:
-        rgb_dict = Lighting.GREEN
+        rgb_value = Lighting.GREEN
 
-    return rgb_dict
+    return rgb_value
 
 
 class EnergyUsageLight(object):

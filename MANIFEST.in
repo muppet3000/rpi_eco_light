@@ -1,0 +1,4 @@
+include requirements.txt
+graft rpi_eco_light/example_conf
+global-exclude __pycache__
+global-exclude *.py[co]

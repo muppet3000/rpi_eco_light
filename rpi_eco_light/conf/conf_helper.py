@@ -1,11 +1,9 @@
 import ConfigParser
-import os
 
 
 class ConfigHelper(object):
-    def __init__(self):
-        dir_path = os.path.dirname(__file__)
-        self._config_file_location = dir_path + '/rpi-eco-light.ini'
+    def __init__(self, config_file):
+        self._config_file_location = config_file
 
     def get_current_config(self):
         config = ConfigParser.ConfigParser()

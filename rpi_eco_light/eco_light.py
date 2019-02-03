@@ -1,5 +1,4 @@
-#!/usr/bin/python
-
+import argparse
 import logging.config
 import signal
 import sys
@@ -12,16 +11,19 @@ from rpi_eco_light.energy_usage_light import EnergyUsageLight
 logging.config.dictConfig(LOGGING)
 logger = logging.getLogger(__name__)
 
-config_helper = ConfigHelper()
-
 
 def signal_term_handler(signal, frame):
     logger.fatal('Handling SIGTERM')
     sys.exit(0)
 
 
-if __name__ == '__main__':
-    logger.info('Starting RPi ECO Light')
+def run_eco_light():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('config_file', help='The config file to use')
+    args = parser.parse_args()
+
+    logger.info('Starting RPi ECO Light - config: {}'.format(args.config))
+    config_helper = ConfigHelper(args.config)
     signal.signal(signal.SIGINT, signal_term_handler)
     usage_light = EnergyUsageLight(config_helper)
     while True:
@@ -35,3 +37,7 @@ if __name__ == '__main__':
 
         # Sleep for a bit before the next update
         time.sleep(float(current_config.get('service', 'update_interval_in_sec')))
+
+
+if __name__ == '__main__':
+    run_eco_light()
