@@ -1,7 +1,8 @@
-import time
 import logging
+import time
 
-class Lighting:
+
+class Lighting(object):
     BLUE = (0, 0, 255)
     GREEN = (0, 255, 0)
     YELLOW = (177, 142, 52)
@@ -12,26 +13,26 @@ class Lighting:
     def __init__(self):
         self._logger = logging.getLogger(self.__class__.__name__)
         self._current_value = self.BLUE
-        pixels = self._set_whole_grid(self._current_value)
+        self._set_whole_grid(self._current_value)
 
     def set_light(self, target_value):
         set_to_value = self._current_value
         while set_to_value != target_value:
-            set_to_value = self._fade_between_rgb(set_to_value, target_value,1)
-            pixels = self._set_whole_grid(set_to_value)
+            set_to_value = self._fade_between_rgb(set_to_value, target_value, 1)
+            self._set_whole_grid(set_to_value)
             time.sleep(0.01)
         self._current_value = set_to_value
 
     def set_error(self):
         self._current_value = self.PURPLE
-        self._logger.error("Light set to error state")
+        self._logger.error('Light set to error state')
 
     def _set_whole_grid(self, rgb_val):
         pixels = []
         for _ in range(8):
             pixels.append([])
             for _ in range(8):
-                pixels[len(pixels)-1].append(rgb_val)
+                pixels[len(pixels) - 1].append(rgb_val)
         return pixels
 
     def _fade_between_rgb(self, current_rgb, desired_rgb, change_step=2):
