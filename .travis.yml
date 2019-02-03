@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+
+install:
+  - pip install tox-travis
+
+script: tox
+
+deploy:
+  provider: pypi
+  repository: https://pypi.fury.io/geben/
+  password: '2fGzvp-gDf95Ygur9Hl5oaPOLD1L0NKYdM'
